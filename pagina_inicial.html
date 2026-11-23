@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCEL - Simulador de Consumo Elétrico (MT)</title>
+    <title>SCEEL - Simulador de Consumo Elétrico (MT)</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent: #38bdf8;
+            --bg-color: #0b0f19;
+            --card-bg: #131b2e;
+            --accent: #00E1DA;
+            --accent-secondary: #0EA7F8;
+            --primary-purple: #5010F9;
+            --solar-orange: #FF8215;
+            --solar-gold: #E8A829;
             --text: #f8fafc;
             --text-muted: #94a3b8;
-            --border: #334155;
-            --highlight: #f43f5e;
-            --green: #22c55e;
-            --yellow: #eab308;
+            --border: #1e293b;
+            --highlight: #FF8215;
+            --green: #00E1DA;
         }
 
         body {
@@ -32,11 +35,15 @@
             width: 100%;
         }
 
-        h1 {
-            color: var(--accent);
+        .logo-header {
             text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+        }
+
+        .logo-header img {
+            max-height: 80px;
+            width: auto;
+            vertical-align: middle;
         }
 
         .sub-header {
@@ -52,6 +59,7 @@
             padding: 20px;
             margin-bottom: 20px;
             border: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         .tarifa-wrapper {
@@ -60,7 +68,7 @@
         }
 
         .tarifa-info {
-            background: #0f172a;
+            background: #0b0f19;
             padding: 12px 20px;
             border-radius: 10px;
             border: 1px solid var(--border);
@@ -86,7 +94,7 @@
             padding: 8px 12px;
             border-radius: 8px;
             border: 1px solid var(--border);
-            background-color: #1e293b;
+            background-color: #131b2e;
             color: var(--text);
             font-size: 0.85rem;
             outline: none;
@@ -95,9 +103,9 @@
 
         select:focus, input:focus {
             border-color: var(--accent);
+            box-shadow: 0 0 5px rgba(0, 225, 218, 0.3);
         }
 
-        /* Correção para evitar que o card do Histórico de Consumo estique */
         .config-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -107,7 +115,7 @@
         }
 
         .config-box {
-            background: #0f172a;
+            background: #0b0f19;
             padding: 15px;
             border-radius: 10px;
             border: 1px solid var(--border);
@@ -115,7 +123,7 @@
 
         .config-box h4 {
             margin: 0 0 10px 0;
-            color: var(--accent);
+            color: var(--accent-secondary);
             font-size: 0.95rem;
         }
 
@@ -139,7 +147,7 @@
         }
 
         .add-btn {
-            background-color: #0284c7;
+            background-color: var(--primary-purple);
             color: #fff;
             padding: 6px 12px;
             border-radius: 6px;
@@ -147,6 +155,11 @@
             cursor: pointer;
             font-size: 0.8rem;
             font-weight: bold;
+            transition: opacity 0.2s;
+        }
+
+        .add-btn:hover {
+            opacity: 0.85;
         }
 
         .grid-header {
@@ -174,7 +187,7 @@
             grid-template-columns: 2fr 1fr 1fr 1fr 1fr 40px;
             gap: 8px;
             align-items: center;
-            background: #0f172a;
+            background: #0b0f19;
             padding: 8px 10px;
             border-radius: 8px;
             border: 1px solid var(--border);
@@ -191,7 +204,7 @@
         }
 
         .btn-del {
-            background-color: var(--highlight);
+            background-color: var(--solar-orange);
             color: white;
             border: none;
             border-radius: 6px;
@@ -204,7 +217,7 @@
             width: 100%;
             padding: 12px;
             background-color: var(--accent);
-            color: #0f172a;
+            color: #0b0f19;
             border: none;
             border-radius: 8px;
             font-weight: bold;
@@ -231,7 +244,7 @@
         }
 
         .resumo-box {
-            background: #0f172a;
+            background: #0b0f19;
             padding: 12px;
             border-radius: 8px;
             border: 1px solid var(--border);
@@ -249,9 +262,9 @@
         }
 
         .solar-alert {
-            background: #064e3b;
-            border: 1px solid var(--green);
-            color: #ecfdf5;
+            background: rgba(80, 16, 249, 0.15);
+            border: 1px solid var(--primary-purple);
+            color: #e2e8f0;
             padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 15px;
@@ -259,8 +272,8 @@
         }
 
         .comparacao-alert {
-            background: #1e1b4b;
-            border: 1px solid #6366f1;
+            background: rgba(14, 167, 248, 0.15);
+            border: 1px solid var(--accent-secondary);
             color: #e0e7ff;
             padding: 12px 15px;
             border-radius: 8px;
@@ -283,7 +296,7 @@
         }
 
         .top-culpado {
-            color: var(--highlight);
+            color: var(--solar-orange);
             font-weight: bold;
         }
 
@@ -305,19 +318,23 @@
         }
 
         .tabela-projecao th {
-            background-color: #0f172a;
+            background-color: #0b0f19;
             color: var(--accent);
         }
 
         .tabela-projecao tr:nth-child(even) {
-            background-color: #0f172a40;
+            background-color: rgba(11, 15, 25, 0.4);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>SCEL - Sistema de Consumo Elétrico</h1>
+    <div class="logo-header">
+        <img src="logo.png" alt="Logo SCEEL">
+        <h4>Simulador de Consumo Elétrico</h4>
+    </div>
+    
     <div class="sub-header">Base de Cálculo: Estado de Mato Grosso (Energisa MT)</div>
 
     <div class="card">
